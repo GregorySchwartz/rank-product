@@ -1,5 +1,5 @@
 name:                rank-product
-version:             0.1.0.0
+version:             0.1.0.1
 synopsis:            Find the rank product of a data set.
 description:         Find the rank product of a data set and get the p-value from a permutation test.
 homepage:            http://github.com/GregorySchwartz/rank-product#readme
@@ -15,8 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Types
-                     , RankProduct
+  exposed-modules:     Statistics.Types
+                     , Statistics.RankProduct
   build-depends:       base >= 4.7 && < 5
                      , random-fu
   ghc-options:         -O2

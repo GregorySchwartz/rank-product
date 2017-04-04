@@ -4,7 +4,7 @@ Gregory W. Schwartz
 Collects the types used in the program
 -}
 
-module Types where
+module Statistics.Types where
 
 -- Standard
 

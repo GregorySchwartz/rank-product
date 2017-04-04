@@ -7,7 +7,7 @@ well as the associated p-value.
 
 {-# LANGUAGE BangPatterns #-}
 
-module RankProduct
+module Statistics.RankProduct
     ( rankList
     , rankProduct
     , prerankProduct
@@ -22,7 +22,7 @@ import Data.Random
 -- Cabal
 
 -- Local
-import Types
+import Statistics.Types
 
 -- | Rank transform a list.
 rankList :: (Ord a) => [a] -> [Int]
