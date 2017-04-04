@@ -71,7 +71,7 @@ boolToNum True  = 1
 -- p-value.
 rankProductPermutation :: Permutations
                        -> [Entity]
-                       -> IO [(PValue, RankProductEntity)]
+                       -> IO [(RankProductEntity, PValue)]
 rankProductPermutation (Permutations permutations) entities = do
     let ranked  = fmap RankEntity
                 . transpose
@@ -101,4 +101,4 @@ rankProductPermutation (Permutations permutations) entities = do
     let pVals =
             fmap (\e -> PValue $ (fromIntegral e) / (fromIntegral permutations)) exp
 
-    return . zip pVals $ obs
+    return . zip obs $ pVals
