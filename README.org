@@ -1,0 +1,7 @@
+* rank-product
+
+Find the rank product of a data set and get the p-value from a permutation test.
+
+[[http://www.sciencedirect.com/science/article/pii/S0014579304009354][More information about rank products.]]
+
+Used to find out where a certain entity ranks among different samples. We can obtain \(p\)-values through a permutation test by shuffling the rankings of each sample.
