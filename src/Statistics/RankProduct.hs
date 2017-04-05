@@ -35,7 +35,11 @@ rankList = fmap fst
 -- | Get the rank product of a list of Entity.
 rankProduct :: [Entity] -> [RankProductEntity]
 rankProduct xs =
-    fmap (RankProductEntity . (** (1 / genericLength xs)) . fromIntegral . product)
+    fmap ( RankProductEntity
+         . (** (1 / (genericLength . head . fmap unEntity $ xs)))
+         . fromIntegral
+         . product
+         )
         . transpose
         . fmap rankList
         . transpose
