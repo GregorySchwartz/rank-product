@@ -36,7 +36,7 @@ rankList = fmap fst
 rankProduct :: [Entity] -> [RankProductEntity]
 rankProduct xs =
     fmap ( RankProductEntity
-         . (** (1 / (genericLength . head . fmap unEntity $ xs)))
+         . (** (1 / (genericLength . unEntity . head $ xs)))
          . fromIntegral
          . product
          )
@@ -52,7 +52,7 @@ prerankProduct :: [RankEntity] -> [RankProductEntity]
 prerankProduct xs =
     fmap
         ( RankProductEntity
-        . (** (1 / genericLength xs))
+        . (** (1 / (genericLength . unRankEntity . head $ xs)))
         . fromIntegral
         . product
         . unRankEntity
