@@ -18,6 +18,8 @@ module Statistics.RankProduct
 import Data.Function (on)
 import Data.List
 import Data.Random
+import Debug.Trace
+    
 
 -- Cabal
 
@@ -25,7 +27,7 @@ import Data.Random
 import Statistics.Types
 
 -- | Rank transform a list.
-rankList :: (Ord a) => [a] -> [Int]
+rankList :: (Ord a) => [a] -> [Double]
 rankList = fmap fst
          . sortBy (compare `on` (fst . snd))
          . zip [1..]
@@ -37,7 +39,6 @@ rankProduct :: [Entity] -> [RankProductEntity]
 rankProduct xs =
     fmap ( RankProductEntity
          . (** (1 / (genericLength . unEntity . head $ xs)))
-         . fromIntegral
          . product
          )
         . transpose
@@ -53,7 +54,6 @@ prerankProduct xs =
     fmap
         ( RankProductEntity
         . (** (1 / (genericLength . unRankEntity . head $ xs)))
-        . fromIntegral
         . product
         . unRankEntity
         )

@@ -16,10 +16,10 @@ module Statistics.Types where
 -- Basic
 newtype Permutations      = Permutations Int
 newtype Entity            = Entity { unEntity :: [Double] } deriving (Show)
-newtype RankEntity        = RankEntity { unRankEntity :: [Int] }
+newtype RankEntity        = RankEntity { unRankEntity :: [Double] } deriving (Show)
 newtype RankProductEntity = RankProductEntity
     { unRankProductEntity :: Double
-    } deriving ((Show))
+    } deriving (Show)
 newtype PValue            = PValue { unPValue :: Double } deriving (Show)
 
 -- Advanced
