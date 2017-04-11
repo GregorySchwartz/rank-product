@@ -23,3 +23,4 @@ newtype RankProductEntity = RankProductEntity
 newtype PValue            = PValue { unPValue :: Double } deriving (Show)
 
 -- Advanced
+data Sort = Ascending | Descending deriving (Eq, Ord, Read, Show)

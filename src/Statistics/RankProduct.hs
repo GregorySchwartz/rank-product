@@ -18,8 +18,7 @@ module Statistics.RankProduct
 import Data.Function (on)
 import Data.List
 import Data.Random
-import Debug.Trace
-    
+
 
 -- Cabal
 
@@ -27,22 +26,27 @@ import Debug.Trace
 import Statistics.Types
 
 -- | Rank transform a list.
-rankList :: (Ord a) => [a] -> [Double]
-rankList = fmap fst
-         . sortBy (compare `on` (fst . snd))
-         . zip [1..]
-         . sortBy (compare `on` snd)
-         . zip [1..]
+rankList :: (Ord a) => Sort -> [a] -> [Double]
+rankList sortType = fmap fst
+                  . sortBy (compare `on` (fst . snd))
+                  . rankType sortType
+                  . zip [1..]
+                  . sortBy (compare `on` snd)
+                  . zip [1..]
+  where
+    rankType Ascending  = id
+    rankType Descending = (\(!xs, !ys) -> zip (reverse xs) ys) . unzip
 
--- | Get the rank product of a list of Entity.
-rankProduct :: [Entity] -> [RankProductEntity]
-rankProduct xs =
+-- | Get the rank product of a list of Entity. Ascending ranks the lowest value
+-- as 1 while Descending ranks the highest value as 1.
+rankProduct :: Sort -> [Entity] -> [RankProductEntity]
+rankProduct sortType xs =
     fmap ( RankProductEntity
          . (** (1 / (genericLength . unEntity . head $ xs)))
          . product
          )
         . transpose
-        . fmap rankList
+        . fmap (rankList sortType)
         . transpose
         . fmap unEntity
         $ xs
@@ -72,14 +76,16 @@ boolToNum False = 0
 boolToNum True  = 1
 
 -- | Get the rank product of a list of Entity as well as the permutation
--- p-value.
+-- p-value. Ascending ranks the lowest value as 1 while Descending ranks the
+-- highest value as 1.
 rankProductPermutation :: Permutations
+                       -> Sort
                        -> [Entity]
                        -> IO [(RankProductEntity, PValue)]
-rankProductPermutation (Permutations permutations) entities = do
+rankProductPermutation (Permutations permutations) sortType entities = do
     let ranked  = fmap RankEntity
                 . transpose
-                . fmap rankList
+                . fmap (rankList sortType)
                 . transpose
                 . fmap unEntity
                 $ entities
