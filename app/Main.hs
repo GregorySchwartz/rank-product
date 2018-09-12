@@ -30,7 +30,7 @@ data Options = Options { permutations :: Maybe Int
                        , delimiter    :: Maybe Char
                                      <?> "([,] | CHAR) The delimiter of the CSV file. Format is name,replicate,value."
                        , sortType         :: Maybe Sort
-                                     <?> "([Ascending] | Descending) How to sort for output."
+                                     <?> "([Ascending] | Descending) Ascending ranks 1 as the lowest value while Descending ranks the highest value as 1."
                        }
                deriving (Generic)
 

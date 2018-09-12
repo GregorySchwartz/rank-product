@@ -1,5 +1,5 @@
 name:                rank-product
-version:             0.2.1.0
+version:             0.2.1.1
 synopsis:            Find the rank product of a data set.
 description:         Find the rank product of a data set and get the p-value from a permutation test.
 homepage:            http://github.com/GregorySchwartz/rank-product#readme
