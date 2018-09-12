@@ -12,13 +12,13 @@ module Statistics.RankProduct
     , rankProduct
     , prerankProduct
     , rankProductPermutation
+    , namedRankProductPermutation
     ) where
 
 -- Standard
 import Data.Function (on)
 import Data.List
 import Data.Random
-
 
 -- Cabal
 
@@ -112,3 +112,20 @@ rankProductPermutation (Permutations permutations) sortType entities = do
             fmap (\e -> PValue $ (fromIntegral e) / (fromIntegral permutations)) exp
 
     return . zip obs $ pVals
+
+-- | Get the rank product of a list of NamedEntity as well as the permutation
+-- p-value, removing entities without all replicates. Ascending ranks the lowest
+-- value as 1 while Descending ranks the highest value as 1.
+namedRankProductPermutation :: Permutations
+                            -> Sort
+                            -> [NamedEntity]
+                            -> IO [(Name, RankProductEntity, PValue)]
+namedRankProductPermutation permutations sortType entities =
+  fmap (zipWith (\ !n (!r, !p) -> (n, r, p)) names)
+    . rankProductPermutation permutations sortType
+    . fmap (\(NamedEntity _ xs) -> Entity xs)
+    . filter ((== maxReplicates) . length . values)
+    $ entities
+  where
+    names = fmap name entities
+    maxReplicates = maximum . fmap (length . values) $ entities
