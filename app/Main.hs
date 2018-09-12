@@ -31,13 +31,16 @@ data Options = Options { permutations :: Maybe Int
                                      <?> "([,] | CHAR) The delimiter of the CSV file. Format is name,replicate,value."
                        , sortType         :: Maybe Sort
                                      <?> "([Ascending] | Descending) Ascending ranks 1 as the lowest value while Descending ranks the highest value as 1."
+                       , defaultValue     :: Maybe Double
+                                     <?> "([Nothing] | DOUBLE) Default value of missing replicate rather than removing entity."
                        }
                deriving (Generic)
 
 modifiers :: Modifiers
 modifiers = lispCaseModifiers { shortNameModifier = short }
   where
-    short x         = firstLetter x
+    short "defaultValue" = Just 'v'
+    short x              = firstLetter x
 
 instance ParseField Sort
 
@@ -55,6 +58,7 @@ main = do
         delim'        =
             Delimiter . fromMaybe ',' . unHelpful . delimiter $ opts
         sortType'     = fromMaybe Ascending . unHelpful . sortType $ opts
+        defaultValue' = fmap DefaultValue . unHelpful . defaultValue $ opts
         decodeOpt       = CSV.defaultDecodeOptions
                             { CSV.decDelimiter =
                                 fromIntegral (ord . unDelimiter $ delim')
@@ -64,7 +68,7 @@ main = do
                                 fromIntegral (ord . unDelimiter $ delim')
                             }
 
-    entities <- loadNamedEntities
+    entities <- loadNamedEntities defaultValue'
               . either error snd
               . CSV.decodeByNameWith decodeOpt
             <$> B.getContents

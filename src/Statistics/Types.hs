@@ -20,6 +20,7 @@ import qualified Data.Text as T
 newtype Delimiter         = Delimiter { unDelimiter :: Char } deriving (Read, Show)
 newtype Name              = Name { unName :: T.Text } deriving (Eq, Ord, Show)
 newtype Permutations      = Permutations Int deriving (Show)
+newtype DefaultValue      = DefaultValue Double
 newtype Entity            = Entity { unEntity :: [Double] } deriving (Show)
 newtype RankEntity        = RankEntity { unRankEntity :: [Double] } deriving (Show)
 newtype RankProductEntity = RankProductEntity
